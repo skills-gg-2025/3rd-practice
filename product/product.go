@@ -11,6 +11,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/feature/dynamodb/attributevalue"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb/types"
 	"github.com/gin-gonic/gin"
 )
 
@@ -122,8 +123,8 @@ func getProductHandler(c *gin.Context) {
 
 	output, err := dynamoClient.GetItem(ctx, &dynamodb.GetItemInput{
 		TableName: aws.String(TableName),
-		Key: map[string]dynamodb.AttributeValue{
-			"id": &dynamodb.AttributeValueMemberS{Value: id},
+		Key: map[string]types.AttributeValue{
+			"id": &types.AttributeValueMemberS{Value: id},
 		},
 	})
 	if err != nil {
