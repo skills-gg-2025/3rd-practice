@@ -60,13 +60,6 @@ func main() {
 }
 
 func handleCreateUser(c *gin.Context) {
-	requestID := c.Query("requestid")
-	uuid := c.Query("uuid")
-	if requestID == "" || uuid == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Missing query parameters: requestid and uuid"})
-		return
-	}
-
 	var userReq UserRequest
 	if err := c.ShouldBindJSON(&userReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body", "details": err.Error()})
