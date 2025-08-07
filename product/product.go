@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -16,9 +17,9 @@ import (
 )
 
 type Product struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Price int    `json:"price"`
+	ID    string `json:"id" dynamodbav:"id"`
+	Name  string `json:"name" dynamodbav:"name"`
+	Price int    `json:"price" dynamodbav:"price"`
 }
 
 type ProductRequest struct {
@@ -101,11 +102,12 @@ func postProductHandler(c *gin.Context) {
 		Item:      item,
 	})
 	if err != nil {
+		fmt.Println(err)
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "DynamoDB 저장 실패"})
 		return
 	}
 
-	c.Status(http.StatusCreated)
+	c.JSON(http.StatusCreated, gin.H{"message": "상품이 성공적으로 생성되었습니다."})
 }
 
 func getProductHandler(c *gin.Context) {
